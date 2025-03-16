@@ -61,6 +61,12 @@ cols_to_replace = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI'
 df_cleaned[cols_to_replace] = df_cleaned[cols_to_replace].replace(0, pd.NA)
 df_cleaned = df_cleaned.dropna().drop_duplicates()
 
+# Prepare df_head_median by replacing 0 with median in specified columns
+df_head_median = df_original.copy()
+for col in cols_to_replace:
+    df_head_median[col] = df_head_median[col].replace(0, df_head_median[col].median())
+df_head_median = df_head_median.head(5)  # Take first 5 rows after replacing 0 with median
+
 # Title
 st.title("🩺 Pima Indians Diabetes Dashboard")
 st.write("Explore diabetes data with visualizations and machine learning predictions.")
@@ -89,10 +95,15 @@ with tab1:
     st.write("### Dataset Awal")
     st.write("Dataset asli yang diunduh dari Google Drive (Pima Indians Diabetes) dengan 768 baris dan 9 kolom:")
     st.dataframe(df_original)
-    
-    #Statistik Deskriptif
+
+    # Statistik Deskriptif
     st.write("Statistik Deskriptif Dataset Awal:")
     st.dataframe(df_original.describe())
+
+    # Dataset Awal - Head Preview dengan Median
+    st.write("### Dataset Setelah Mengganti Nilai 0 dengan Median untuk masing-masing outcome.")
+    st.write("Berikut adalah 5 baris pertama dari dataset setelah mengganti nilai 0 pada kolom Glucose, BloodPressure, SkinThickness, Insulin, dan BMI dengan median masing-masing kolom:")
+    st.dataframe(df_head_median)
 
     # Histogram semua kolom setelah cleaning
     st.write("### Distribusi Semua Kolom Setelah Cleaning")
@@ -106,6 +117,7 @@ with tab1:
         axes[i].set_ylabel('')
     plt.tight_layout()
     st.pyplot(fig_hist)
+
 
 # Tab 2: Hasil Analisis
 with tab2:
@@ -234,8 +246,8 @@ with tab4:
     st.write("""
     Berdasarkan analisis yang telah dilakukan pada dataset Pima Indians Diabetes, berikut adalah beberapa kesimpulan yang dapat diambil:
     
-    1. **Faktor Penting**: Variabel seperti Glucose, Insulin, dan BMI memiliki korelasi yang signifikan dengan Outcome (diabetes), dengan Glucose menjadi faktor paling berpengaruh berdasarkan analisis korelasi.
-    2. **Performa Model**: 
+    1. Faktor Penting: Variabel seperti Glucose, Insulin, dan BMI memiliki korelasi yang signifikan dengan Outcome (diabetes), dengan Glucose menjadi faktor paling berpengaruh berdasarkan analisis korelasi.
+    2. Performa Model: 
        - Random Forest memberikan akurasi tertinggi (85%) dengan precision, recall, dan F1-score yang seimbang, menjadikannya model terbaik untuk prediksi diabetes pada dataset ini.
        - Naive Bayes memiliki akurasi lebih rendah (74%) dengan recall yang lebih rendah untuk kelas positif (diabetes).
        - J48 Decision Tree memberikan akurasi yang baik (84%), namun sedikit di bawah Random Forest dalam hal konsistensi metrik.
