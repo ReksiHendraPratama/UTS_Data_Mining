@@ -89,23 +89,10 @@ with tab1:
     st.write("### Dataset Awal")
     st.write("Dataset asli yang diunduh dari Google Drive (Pima Indians Diabetes) dengan 768 baris dan 9 kolom:")
     st.dataframe(df_original)
-
-    # Assessing Data
-    st.write("### Hasil Assessing Data")
-    st.write("Dimensi Dataset:")
-    st.write(f"Jumlah baris: {df_original.shape[0]}, Jumlah kolom: {df_original.shape[1]}")
-
-    st.write("Informasi Dataset Awal:")
-    buffer = io.StringIO()
-    df_original.info(buf=buffer)
-    st.text(buffer.getvalue())
-
+    
+    #Statistik Deskriptif
     st.write("Statistik Deskriptif Dataset Awal:")
     st.dataframe(df_original.describe())
-
-    st.write("Jumlah Nilai 0 per Kolom (Missing Value Tersembunyi):")
-    zero_counts = (df_original == 0).sum()
-    st.write(zero_counts)
 
     # Histogram semua kolom setelah cleaning
     st.write("### Distribusi Semua Kolom Setelah Cleaning")
@@ -252,10 +239,6 @@ with tab4:
        - Random Forest memberikan akurasi tertinggi (85%) dengan precision, recall, dan F1-score yang seimbang, menjadikannya model terbaik untuk prediksi diabetes pada dataset ini.
        - Naive Bayes memiliki akurasi lebih rendah (74%) dengan recall yang lebih rendah untuk kelas positif (diabetes).
        - J48 Decision Tree memberikan akurasi yang baik (84%), namun sedikit di bawah Random Forest dalam hal konsistensi metrik.
-    3. **Preprocessing Data**: Penggantian nilai 0 dengan median berdasarkan Outcome membantu meningkatkan kualitas data, terutama pada kolom seperti Glucose, BloodPressure, SkinThickness, Insulin, dan BMI.
-    4. **Aplikasi Praktis**: Dashboard ini memungkinkan pengguna untuk memahami distribusi data, hubungan antar variabel, dan melakukan prediksi diabetes menggunakan Random Forest, yang terbukti paling efektif.
-
-    Secara keseluruhan, pendekatan berbasis machine learning, khususnya Random Forest, dapat menjadi alat yang powerful untuk mendeteksi diabetes pada populasi Pima Indian berdasarkan data kesehatan yang tersedia.
     """)
 
 # Footer
