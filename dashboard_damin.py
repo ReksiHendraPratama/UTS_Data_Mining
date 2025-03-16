@@ -81,16 +81,16 @@ st.sidebar.write("- Reksi Hendra Pratama (G1A022032)")
 st.sidebar.write("- Yuda Reyvandra Herman (G1A022072)")
 st.sidebar.markdown("<p style='text-align: center; color: #A9A9A9;'>© 2025 Diabetes Analytics</p>", unsafe_allow_html=True)
 
-# Tab 1: Data Diabetes (Dataset Awal, Assessing Data, dan Cleaning Data)
+# Tab 1: Data Diabetes
 with tab1:
     st.subheader("📊 Dataset Exploration and Cleaning")
 
-    # 1. Dataset Awal
+    # Dataset Awal
     st.write("### Dataset Awal")
     st.write("Dataset asli yang diunduh dari Google Drive (Pima Indians Diabetes) dengan 768 baris dan 9 kolom:")
     st.dataframe(df_original)
 
-    # 2. Assessing Data
+    # Assessing Data
     st.write("### Hasil Assessing Data")
     st.write("Dimensi Dataset:")
     st.write(f"Jumlah baris: {df_original.shape[0]}, Jumlah kolom: {df_original.shape[1]}")
@@ -107,13 +107,13 @@ with tab1:
     zero_counts = (df_original == 0).sum()
     st.write(zero_counts)
 
-    # Tambahkan histogram semua kolom setelah cleaning (dari kode IPython Notebook)
+    # Histogram semua kolom setelah cleaning
     st.write("### Distribusi Semua Kolom Setelah Cleaning")
     st.write("Histogram berikut menunjukkan distribusi data untuk semua kolom setelah proses cleaning:")
     fig_hist, axes = plt.subplots(3, 3, figsize=(12, 12))
     axes = axes.flatten()  # Flatten array 2D menjadi 1D untuk iterasi mudah
     for i, col in enumerate(df_cleaned.columns):
-        df_cleaned[col].hist(bins=50, ax=axes[i])
+        axes[i].hist(df_cleaned[col].dropna(), bins=50)  # Gunakan Matplotlib langsung
         axes[i].set_title(col)
         axes[i].set_xlabel('')
         axes[i].set_ylabel('')
